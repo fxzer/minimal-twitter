@@ -7,11 +7,21 @@ export default async function changeHideViewCounts(setting) {
 
   if (setting === "off") {
     viewCounts.forEach((el) => {
-      el.parentElement && (el.parentElement.style.display = "flex");
+      if (el.parentElement) {
+        el.parentElement.style.display = "flex";
+        // Remove aria-hidden and restore accessibility
+        el.removeAttribute("aria-hidden");
+        el.removeAttribute("tabindex");
+      }
     });
   } else if (setting === "on") {
     viewCounts.forEach((el) => {
-      el.parentElement && (el.parentElement.style.display = "none");
+      if (el.parentElement) {
+        el.parentElement.style.display = "none";
+        // Properly hide from assistive technology and remove from tab order
+        el.setAttribute("aria-hidden", "true");
+        el.setAttribute("tabindex", "-1");
+      }
     });
   }
 }

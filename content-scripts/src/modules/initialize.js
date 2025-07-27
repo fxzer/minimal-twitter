@@ -23,13 +23,42 @@ export const addStylesheets = async () => {
   // Only fetch from CDN in production
   if (!(await isDevelopmentMode())) {
     try {
-      const mainStylesheetFromCDN = await fetch("https://raw.githubusercontent.com/typefully/minimal-twitter/main/css/main.css");
-      const typefullyStylesheetFromCDN = await fetch("https://raw.githubusercontent.com/typefully/minimal-twitter/main/css/typefully.css");
-      const mainText = (await mainStylesheetFromCDN.text()).trim();
-      const typefullyText = (await typefullyStylesheetFromCDN.text()).trim();
-      addStyleSheet("external", null, mainText.concat("\n\n").concat(typefullyText));
+      // Add timeout and better error handling for CDN requests
+      const fetchWithTimeout = (url, timeout = 5000) => {
+        return Promise.race([
+          fetch(url),
+          new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('Request timeout')), timeout)
+          )
+        ]);
+      };
+
+      const [mainStylesheetFromCDN, typefullyStylesheetFromCDN] = await Promise.allSettled([
+        fetchWithTimeout("https://raw.githubusercontent.com/typefully/minimal-twitter/main/css/main.css"),
+        fetchWithTimeout("https://raw.githubusercontent.com/typefully/minimal-twitter/main/css/typefully.css")
+      ]);
+
+      let combinedStyles = "";
+      
+      if (mainStylesheetFromCDN.status === 'fulfilled' && mainStylesheetFromCDN.value.ok) {
+        const mainText = (await mainStylesheetFromCDN.value.text()).trim();
+        combinedStyles += mainText;
+      } else {
+        console.warn("Failed to fetch main stylesheet from CDN, using local version");
+      }
+      
+      if (typefullyStylesheetFromCDN.status === 'fulfilled' && typefullyStylesheetFromCDN.value.ok) {
+        const typefullyText = (await typefullyStylesheetFromCDN.value.text()).trim();
+        combinedStyles += combinedStyles ? "\n\n" + typefullyText : typefullyText;
+      } else {
+        console.warn("Failed to fetch typefully stylesheet from CDN, using local version");
+      }
+      
+      if (combinedStyles) {
+        addStyleSheet("external", null, combinedStyles);
+      }
     } catch (error) {
-      console.error("Can't fetch stylesheets from CDN", error);
+      console.warn("CDN stylesheet fetch failed, falling back to local stylesheets:", error.message || error);
     }
   } else {
     console.log("🚧 Development mode, not adding CDN-cached stylesheets");

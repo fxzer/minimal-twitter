@@ -21,20 +21,6 @@ export const changeTimelineWidth = (timelineWidth) => {
       );
       break;
 
-    case 650:
-      addStyles(
-        "timelineWidth",
-        `
-        @media only screen and (min-width: 988px) {
-          ${selectors.mainColumn} {
-            width: 650px;
-            max-width: 650px;
-          }
-        }
-        `
-      );
-      break;
-
     case 700:
       addStyles(
         "timelineWidth",
@@ -49,20 +35,6 @@ export const changeTimelineWidth = (timelineWidth) => {
       );
       break;
 
-    case 750:
-      addStyles(
-        "timelineWidth",
-        `
-        @media only screen and (min-width: 988px) {
-          ${selectors.mainColumn} {
-            width: 750px;
-            max-width: 750px;
-          }
-        }
-        `
-      );
-      break;
-
     case 800:
       addStyles(
         "timelineWidth",
@@ -71,6 +43,62 @@ export const changeTimelineWidth = (timelineWidth) => {
           ${selectors.mainColumn} {
             width: 800px;
             max-width: 800px;
+          }
+        }
+        `
+      );
+      break;
+
+    case 900:
+      addStyles(
+        "timelineWidth",
+        `
+        @media only screen and (min-width: 988px) {
+          ${selectors.mainColumn} {
+            width: 900px;
+            max-width: 900px;
+          }
+        }
+        `
+      );
+      break;
+
+    case 1000:
+      addStyles(
+        "timelineWidth",
+        `
+        @media only screen and (min-width: 988px) {
+          ${selectors.mainColumn} {
+            width: 1000px;
+            max-width: 1000px;
+          }
+        }
+        `
+      );
+      break;
+
+    case 1100:
+      addStyles(
+        "timelineWidth",
+        `
+        @media only screen and (min-width: 988px) {
+          ${selectors.mainColumn} {
+            width: 1100px;
+            max-width: 1100px;
+          }
+        }
+        `
+      );
+      break;
+
+    case 1200:
+      addStyles(
+        "timelineWidth",
+        `
+        @media only screen and (min-width: 988px) {
+          ${selectors.mainColumn} {
+            width: 1200px;
+            max-width: 1200px;
           }
         }
         `

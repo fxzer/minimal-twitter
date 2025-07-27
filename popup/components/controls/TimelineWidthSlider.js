@@ -58,7 +58,7 @@ const StyledThumb = styled(SliderPrimitive.Thumb, {
 
 const TimelineWidthSlider = () => {
   const [userTrack, setUserTrack] = useState(700);
-  const trackDots = [600, 650, 700, 750, 800];
+  const trackDots = [600, 700, 800, 900, 1000, 1100, 1200];
 
   useEffect(() => {
     const getUserDefaultTimelineWidth = async () => {
@@ -90,8 +90,8 @@ const TimelineWidthSlider = () => {
           }}
           value={[userTrack]}
           min={600}
-          max={800}
-          step={50}
+          max={1200}
+          step={100}
           aria-label="Timeline Width Slider"
         >
           <StyledTrack>
@@ -104,7 +104,7 @@ const TimelineWidthSlider = () => {
                 key={`track-${key}`}
                 title={`${track}px`}
                 style={{
-                  left: `${Math.abs(((800 - track) / 200) * 100 - 100)}%`,
+                  left: `${Math.abs(((1200 - track) / 600) * 100 - 100)}%`,
                   backgroundColor: track > userTrack ? "#8ecdf8" : "#1d9bf0",
                 }}
                 className="absolute w-3 h-3 rounded-full"
@@ -112,7 +112,7 @@ const TimelineWidthSlider = () => {
             ))}
           </span>
         </StyledSlider>
-        <span className="text-lg font-medium">800px</span>
+        <span className="text-lg font-medium">1200px</span>
       </div>
     </form>
   );

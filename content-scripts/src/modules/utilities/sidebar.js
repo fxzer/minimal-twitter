@@ -50,6 +50,16 @@ const createNewElement = ({ profileNode, name, href, userHref, onClick, svgAsset
       newNode.innerHTML = profileNode.innerHTML;
       newNode.style.cursor = "pointer";
       newNode.onclick = () => onClick(newNode);
+      // Add proper accessibility attributes for clickable div
+      newNode.setAttribute("role", "button");
+      newNode.setAttribute("tabindex", "0");
+      // Add keyboard support for accessibility
+      newNode.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onClick(newNode);
+        }
+      });
     }
 
     newNode.setAttribute("aria-label", name);
